@@ -1,38 +1,46 @@
-from main import FCFS
+from main2y import FCFS
 from tkinter import *
 from tkinter import ttk
 
 fcfs = FCFS()
     
 def add_and_show():
+
     fcfs.process_add(int(entry.get()))
     entry.delete(0, END)
+    fcfs.calculate_visual_representation()
+
+    for i in frame1.grid_slaves():
+            i.grid_forget()
+    label_process = Label(frame1, text='Процесс',bg='grey',textvariable='v',width=15,height=1).grid(column=0,row=0,columnspan=1,rowspan=1)
+
     for i in range(sum(fcfs.process_list)):
         Label(frame1, text=f'{i+1}',bg='grey',width=3,height=1).grid(column=i+1,row=0,columnspan=1,rowspan=1)
-    for i in range(len(fcfs.process_list)):
-        Label(frame1, text=f'Процесс {i+1}',width=15,height=1).grid(column=0,row=i+1,columnspan=1,rowspan=1)
-        for j in range(sum(fcfs.process_list[0:i+1])):
-            if j>=sum(fcfs.process_list[0:i]):
-                Label(frame1, text='И',width=3,height=1).grid(column=j+1,row=i+1,columnspan=1,rowspan=1)
-            else:
-                Label(frame1, text='Г',width=3,height=1).grid(column=j+1,row=i+1,columnspan=1,rowspan=1)
+    
+    for i in range(len(fcfs.visual_representation)):
+         Label(frame1, text=f'Процесс {i+1}',width=15,height=1).grid(column=0,row=i+1,columnspan=1,rowspan=1)
+         for j in range(len(fcfs.visual_representation[i])):
+              Label(frame1, text=f'{fcfs.visual_representation[i][j]}',width=3,height=1).grid(column=j+1,row=i+1,columnspan=1,rowspan=1)
+
 
 def del_and_show():
     fcfs.process_clean()
-    label_avg_process_time_wait['text'] = 'Среднее время ожидания:'
-    label_avg_process_time['text'] = 'Среднее время выполнения:'
+    fcfs.visual_representation = []
     for i in frame1.grid_slaves():
         if (int(i.grid_info()["row"]) != 0) or (int(i.grid_info()["column"]) != 0):
             i.grid_forget()
 
 def count_and_show():
-    fcfs.avg_process_time_counting()
-    label_avg_process_time_wait['text'] = f'Среднее время ожидания: {fcfs.avarage_time_of_waiting}'
-    label_avg_process_time['text'] = f'Среднее время выполнения: {fcfs.avarage_full_time}'
+    a = fcfs.calculate_time()
+    if fcfs.__class__ == FCFS:
+        label1['text'] = a[0]
+        label2['text'] = a[1 ]
+    # for i in range(len(a)):
+    #     Label(frame3, text=f'{a[i]}',width=25,height=2).pack(pady=3)
 
 root = Tk()
 root.title('FCFS')
-root.geometry('1000x500')
+root.geometry('1000x600')
 
 
 
@@ -53,10 +61,15 @@ btn_clean_process.pack(ipady=5,ipadx=9,pady=3)
 
 frame3 = Frame(root)
 frame3.place(relx=0,rely=0.65,relheight=0.35,relwidth=0.4)
-label_avg_process_time_wait = Label(frame3,text='Среднее время ожидания:')
-label_avg_process_time_wait.pack(pady=[10,3])
-label_avg_process_time = Label(frame3,text='Среднее время выполнения:')
-label_avg_process_time.pack(pady=3)
+if fcfs.__class__ == FCFS:
+        label1 = Label(frame3, text="Среднее время ожидания: ",width=25,height=2)
+        label1.pack(pady=3)
+        label2 = Label(frame3, text="Среднее время выполнения: ",width=25,height=2)
+        label2.pack(pady=3)
+# label_avg_process_time_wait = Label(frame3,text='Среднее время ожидания:')
+# label_avg_process_time_wait.pack(pady=[10,3])
+# label_avg_process_time = Label(frame3,text='Среднее время выполнения:')
+# label_avg_process_time.pack(pady=3)
 btn_calculate = Button(frame3, text="Вычислить", command=count_and_show)
 btn_calculate.pack(ipady=5,ipadx=9,pady=3)
 
