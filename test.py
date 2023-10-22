@@ -81,3 +81,7 @@ frame1.place(relx=0,rely=0,relheight=0.65,relwidth=0.8)
 label_process = Label(frame1, text='Процесс',bg='grey',textvariable='v',width=15,height=1).grid(column=0,row=0,columnspan=1,rowspan=1)
 
 root.mainloop()
+
+
+class Interface():
+    pass
