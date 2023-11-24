@@ -35,8 +35,8 @@ class FCFS():
     
     def calculate_time(self):
         if len(self.process_list)>0:
-            self.avarage_full_time = f"Среднее время ожидания: {sum([len(i) for i in self.visual_representation])/len(self.visual_representation)}"
-            self.avarage_time_of_waiting = f"Среднее время выполнения: {sum([i.count('Г') for i in self.visual_representation])/len(self.visual_representation)}"
+            self.avarage_full_time = f"Среднее время ожидания: {round(sum([len(i) for i in self.visual_representation])/len(self.visual_representation), 1)}"
+            self.avarage_time_of_waiting = f"Среднее время выполнения: {round(sum([i.count('Г') for i in self.visual_representation])/len(self.visual_representation), 1)}"
         else:
             self.avarage_full_time = "Среднее время ожидания: "
             self.avarage_time_of_waiting = "Среднее время выполнения: "
