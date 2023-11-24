@@ -1,4 +1,4 @@
-from main2y import FCFS
+from main import FCFS
 from tkinter import *
 from tkinter import ttk
 
@@ -40,8 +40,27 @@ def count_and_show():
 
 root = Tk()
 root.title('FCFS')
-root.geometry('1000x600')
+root.geometry('1000x400')
 
+
+frame = Frame(root)
+frame.place(relx=0,rely=0,relheight=0.65,relwidth=0.8)
+
+canvas = Canvas(frame)
+canvas.pack(side=LEFT, fill=BOTH, expand=True)
+
+yscrollbar = Scrollbar(frame, orient=VERTICAL, command=canvas.yview)
+yscrollbar.pack(side=RIGHT, fill=Y)
+
+xscrollbar = Scrollbar(frame, orient=HORIZONTAL, command=canvas.xview)
+xscrollbar.pack(side=BOTTOM, fill=X, padx=(0, yscrollbar.winfo_width()))
+
+canvas.configure(yscrollcommand=yscrollbar.set, xscrollcommand=xscrollbar.set)
+
+# Создаем внутренний фрейм, на котором будут размещены виджеты
+frame1 = Frame(canvas)
+frame1.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+canvas.create_window((0, 0), window=frame1, anchor="nw")
 
 
 frame2 = Frame(root)
@@ -74,10 +93,6 @@ btn_calculate = Button(frame3, text="Вычислить", command=count_and_show
 btn_calculate.pack(ipady=5,ipadx=9,pady=3)
 
 
-
-
-frame1 = Frame(root)# Будующая таблица
-frame1.place(relx=0,rely=0,relheight=0.65,relwidth=0.8)
 label_process = Label(frame1, text='Процесс',bg='grey',textvariable='v',width=15,height=1).grid(column=0,row=0,columnspan=1,rowspan=1)
 
 root.mainloop()
