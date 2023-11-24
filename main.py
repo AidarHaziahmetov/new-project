@@ -22,14 +22,7 @@ class FCFS():
         self.visual_representation = [[] for i in self.process_list]
         
         for i in range(len(self.process_list)):
-            
-            for j in range(self.process_list[i]):
-                
-                self.visual_representation[i].append('И')
-
-                for g in range(i+1, len(self.process_list)):
-
-                    self.visual_representation[g].append('Г')
+            self.visual_representation[i] = len(self.visual_representation[i-1])*['И'] + self.process_list[i]*['Г']
 
         return self.visual_representation
     
